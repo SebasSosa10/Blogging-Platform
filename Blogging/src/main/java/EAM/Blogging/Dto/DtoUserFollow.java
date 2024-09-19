@@ -1,45 +1,23 @@
 package EAM.Blogging.Dto;
 
-import jakarta.persistence.*;
+import EAM.Blogging.Model.User;
 
-@Entity
-@Table(name = "Userfollow")
-public class UserFollow {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUserfollow;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "follower_id")
+public class DtoUserFollow {
     private User follower;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "followed_id")
     private User followed;
 
-    public UserFollow() {
-        super();
+    public DtoUserFollow() {
+
     }
 
-    public UserFollow(int idUserfollow, User follower, User followed) {
-        this.idUserfollow = idUserfollow;
+    public DtoUserFollow(User follower, User followed) {
         this.follower = follower;
         this.followed = followed;
-    }
-
-
-    public int getIdUserfollow() {
-        return idUserfollow;
-    }
-
-    public void setIdUserfollow(int idUserfollow) {
-        this.idUserfollow = idUserfollow;
     }
 
     public User getFollower() {
         return follower;
     }
-
     public void setFollower(User follower) {
         this.follower = follower;
     }
@@ -47,9 +25,7 @@ public class UserFollow {
     public User getFollowed() {
         return followed;
     }
-
     public void setFollowed(User followed) {
         this.followed = followed;
     }
-
 }

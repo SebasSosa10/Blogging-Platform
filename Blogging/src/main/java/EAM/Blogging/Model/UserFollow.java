@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Userfollow")
-public class Userfollow {
+public class UserFollow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idUserfollow;
@@ -17,11 +17,11 @@ public class Userfollow {
     @JoinColumn(name = "followed_id")
     private User followed;
 
-    public Userfollow() {
+    public UserFollow() {
         super();
     }
 
-    public Userfollow(int idUserfollow, User follower, User followed) {
+    public UserFollow(int idUserfollow, User follower, User followed) {
         this.idUserfollow = idUserfollow;
         this.follower = follower;
         this.followed = followed;

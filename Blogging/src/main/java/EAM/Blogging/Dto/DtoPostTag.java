@@ -1,38 +1,20 @@
 package EAM.Blogging.Dto;
 
+import EAM.Blogging.Model.Post;
+import EAM.Blogging.Model.Tag;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "PostTag")
-public class PostTag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPostTag;
-
-    @ManyToOne   // La llave foránea
-    @JoinColumn(name = "Post_id")  // Referencia a la columna de llave
+public class DtoPostTag {
     private Post post;   // Referencia al objeto
-
-    @ManyToOne   // La llave foránea
-    @JoinColumn(name = "Tag_id")  // Referencia a la columna de llave
     private Tag tag;   // Referencia al objeto
 
-    public PostTag() {
-        super();
+    public DtoPostTag() {
+
     }
 
-    public PostTag(int idPostTag, Post post, Tag tag) {
-        this.idPostTag = idPostTag;
+    public DtoPostTag(Post post, Tag tag) {
         this.post = post;
         this.tag = tag;
-    }
-
-    public int getIdPostTag() {
-        return idPostTag;
-    }
-
-    public void setIdPostTag(int idPostTag) {
-        this.idPostTag = idPostTag;
     }
 
     public Post getPost() {

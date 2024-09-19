@@ -1,8 +1,6 @@
-package EAM.Blogging;
+package EAM.Blogging.Model;
 
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name ="Role")

@@ -1,4 +1,4 @@
-package EAM.Blogging;
+package EAM.Blogging.Model;
 
 import jakarta.persistence.*;
 

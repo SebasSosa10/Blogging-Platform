@@ -1,57 +1,32 @@
 package EAM.Blogging.Dto;
 
+import EAM.Blogging.Model.CommentS;
+import EAM.Blogging.Model.Post;
+import EAM.Blogging.Model.Role;
+import EAM.Blogging.Model.UserProfile;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity
-@Table(name = "User")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUser;
-
-    @Column (name = "email")
+public class DtoUser {
     private String email;
-
-    @Column(name = "password")
     private String password;
-
-    @OneToOne(mappedBy = "user")
     private UserProfile userProfile;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)   //referencia de una llave foranea en algun lugar   cascada: si elimna un hotel las habitaciones existentes se eliminan
     private List<Post> posts;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)   //referencia de una llave foranea en algun lugar   cascada: si elimna un hotel las habitaciones existentes se eliminan
     private List<CommentS> comments;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
     private Role role;
 
+    public DtoUser() {
 
-
-    public User() {
-        super();
     }
 
-    public User(int idUser, Role role, List<CommentS> comments, List<Post> posts, UserProfile userProfile, String password, String email) {
-        this.idUser = idUser;
+    public DtoUser(Role role, List<CommentS> comments, List<Post> posts, UserProfile userProfile, String password, String email) {
         this.role = role;
         this.comments = comments;
         this.posts = posts;
         this.userProfile = userProfile;
         this.password = password;
         this.email = email;
-    }
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
     }
 
     public String getEmail() {

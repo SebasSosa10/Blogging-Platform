@@ -1,26 +1,17 @@
 package EAM.Blogging.Dto;
 
+import EAM.Blogging.Model.Post;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "State")
-public class State {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idState;
-
-    @Column(name = "name")
+public class DtoState {
     private String name;
-
-    @OneToOne(mappedBy = "state")
     private Post post;
 
-    public State() {
-        super();
+    public DtoState() {
+
     }
 
-    public State(int idState, String name, Post post) {
-        this.idState = idState;
+    public DtoState(String name, Post post) {
         this.name = name;
         this.post = post;
     }
@@ -33,11 +24,10 @@ public class State {
         this.name = name;
     }
 
-    public int getIdState() {
-        return idState;
+    public Post getPost() {
+        return post;
     }
-
-    public void setIdState(int idState) {
-        this.idState = idState;
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

@@ -1,36 +1,18 @@
 package EAM.Blogging.Dto;
 
+import EAM.Blogging.Model.User;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name ="Role")
-public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idRole;
-
-    @Column(name = "name")
+public class DtoRole {
     private String name;
-
-    @OneToOne(mappedBy = "role")
     private User user;
 
-    public Role() {
-        super();
+    public DtoRole() {
     }
 
-    public Role(int idRole, String name, User user) {
-        this.idRole = idRole;
+    public DtoRole(String name, User user) {
         this.name = name;
         this.user = user;
-    }
-
-    public int getId() {
-        return idRole;
-    }
-
-    public void setId(int idRole) {
-        this.idRole= idRole;
     }
 
     public String getName() {

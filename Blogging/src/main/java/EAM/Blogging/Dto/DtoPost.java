@@ -1,72 +1,43 @@
 package EAM.Blogging.Dto;
 
+import EAM.Blogging.Model.CommentS;
+import EAM.Blogging.Model.PostTag;
+import EAM.Blogging.Model.State;
+import EAM.Blogging.Model.User;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
 
-
-@Entity
-@Table(name = "Post")
-public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPost;
-
-    @Column(name = "title")
+public class DtoPost {
     private String title;
-
-    @Column(name = "content")
     private String content;
-
-    @Column(name = "likes")
     private int likes;
-
-    @Column (name = "published_date")
-    private Date publisheddate;
-
-    @ManyToOne   // la llave foranea
-    @JoinColumn(name = "user_id")  // referenciar la columna de llave
+    private Date publishedDate;
     private User user;   // refencia del objeto
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "state_id")
     private State state;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostTag> postTags;
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<CommentS> comments;
 
-    public Post() {
+    public DtoPost() {
         super();
     }
 
-    public Post(int idPost, String title, String content, int likes, Date publisheddate, User user, State state, List<PostTag> postTags, List<CommentS> comments) {
-        this.idPost = idPost;
+    public DtoPost(String title, String content, int likes, Date publishedDate, User user, State state, List<PostTag> postTags, List<CommentS> comments) {
         this.title = title;
         this.content = content;
         this.likes = likes;
-        this.publisheddate = publisheddate;
+        this.publishedDate = publishedDate;
         this.user = user;
         this.state = state;
         this.postTags = postTags;
         this.comments = comments;
     }
 
-    public int getIdPost() {
-        return idPost;
-    }
-
-    public void setIdPost(int idPost) {
-        this.idPost = idPost;
-    }
 
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -74,7 +45,6 @@ public class Post {
     public String getContent() {
         return content;
     }
-
     public void setContent(String content) {
         this.content = content;
     }
@@ -82,17 +52,15 @@ public class Post {
     public int getLikes() {
         return likes;
     }
-
     public void setLikes(int likes) {
         this.likes = likes;
     }
 
     public Date getPublisheddate() {
-        return publisheddate;
+        return publishedDate;
     }
-
-    public void setPublisheddate(Date publisheddate) {
-        this.publisheddate = publisheddate;
+    public void setPublisheddate(Date publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     public User getUser() {

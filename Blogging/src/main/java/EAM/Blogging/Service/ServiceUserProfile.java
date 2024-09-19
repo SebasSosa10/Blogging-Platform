@@ -1,8 +1,8 @@
 package EAM.Blogging.Service;
 
+import EAM.Blogging.Model.UserProfile;
 import EAM.Blogging.Repository.RepositoryUserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.UserProfile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class ServiceUserProfile {
         return repositoryUserProfile.findById(id);
     }
 
-    public UserProfile save(UserProfile profile) {
-        return repositoryUserProfile.save(profile);
+    public UserProfile save(UserProfile userProfile) {
+        return repositoryUserProfile.save(userProfile);
     }
 
     public void deleteById(Long id) {
