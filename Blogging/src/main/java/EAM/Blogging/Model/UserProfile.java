@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUserProfile;
+    private Long idUserProfile;
 
     @Column(name = "biography")
     private String biography;
@@ -23,18 +23,17 @@ public class UserProfile {
         super();
     }
 
-    public UserProfile(int idUserProfile, User user, String userName, String biography) {
-        this.idUserProfile = idUserProfile;
+    public UserProfile(User user, String userName, String biography) {
         this.user = user;
         this.userName = userName;
         this.biography = biography;
     }
 
-    public int getIdUserProfile() {
+    public Long getIdUserProfile() {
         return idUserProfile;
     }
 
-    public void setIdUserProfile(int idUserProfile) {
+    public void setIdUserProfile(Long idUserProfile) {
         this.idUserProfile = idUserProfile;
     }
 

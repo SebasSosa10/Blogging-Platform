@@ -1,5 +1,6 @@
 package EAM.Blogging.Service;
 
+import EAM.Blogging.Dto.DtoUserFollow;
 import EAM.Blogging.Model.UserFollow;
 import EAM.Blogging.Repository.RepositoryUserFollow;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +11,44 @@ import java.util.Optional;
 
 @Service
 public class ServiceUserFollow {
+
     @Autowired
-    private RepositoryUserFollow repositoryUserFollow;
+    private RepositoryUserFollow userFollowRepository;
 
-    public List<UserFollow> findAll() {
-        return repositoryUserFollow.findAll();
-
+    public List<UserFollow> findAllFollows() {
+        return userFollowRepository.findAll();
     }
 
-    public Optional<UserFollow> findById(Long id) {
-        return repositoryUserFollow.findById(id);
+    public UserFollow findUserFollowById(Long id) {
+        return userFollowRepository.findById(id).orElse(null);
     }
 
-    public UserFollow save(UserFollow userFollow) {
-        return repositoryUserFollow.save(userFollow);
+    public UserFollow createUserFollow(DtoUserFollow dtoUserFollow) {
+        UserFollow userFollow = new UserFollow();
+        userFollow.setFollower(dtoUserFollow.getFollower());
+        userFollow.setFollowed(dtoUserFollow.getFollowed());
+        return userFollowRepository.save(userFollow);
     }
 
-    public void deleteById(Long id) {
-        repositoryUserFollow.deleteById(id);
+    public boolean updateUserFollow(Long id, DtoUserFollow dtoUserFollow) {
+        Optional<UserFollow> optionalUserFollow = userFollowRepository.findById(id);
+        if (optionalUserFollow.isPresent()) {
+            UserFollow userFollowToUpdate = optionalUserFollow.get();
+            userFollowToUpdate.setFollower(dtoUserFollow.getFollower());
+            userFollowToUpdate.setFollowed(dtoUserFollow.getFollowed());
+            userFollowRepository.save(userFollowToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteUserFollow(Long id) {
+        if (userFollowRepository.existsById(id)) {
+            userFollowRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

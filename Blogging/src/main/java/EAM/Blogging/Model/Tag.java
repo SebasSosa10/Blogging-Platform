@@ -9,7 +9,7 @@ import java.util.List;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idTag;
+    private Long idTag;
 
     @Column(name = "name")
     private String name;
@@ -21,17 +21,16 @@ public class Tag {
         super();
     }
 
-    public Tag(int idTag, String name, List<PostTag> postTags) {
-        this.idTag = idTag;
+    public Tag(String name, List<PostTag> postTags) {
         this.name = name;
         this.postTags = postTags;
     }
 
-    public int getIdTag() {
+    public Long getIdTag() {
         return idTag;
     }
 
-    public void setIdTag(int idTag) {
+    public void setIdTag(Long idTag) {
         this.idTag = idTag;
     }
 

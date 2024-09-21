@@ -1,56 +1,46 @@
 package EAM.Blogging.Controller;
 
 import EAM.Blogging.Model.PostTag;
+import EAM.Blogging.Dto.DtoPostTag;
 import EAM.Blogging.Service.ServicePostTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/posttag")
 public class ControllerPostTag {
+
     @Autowired
     private ServicePostTag servicePostTag;
 
     @GetMapping
     public List<PostTag> getAllPostTags() {
-        return servicePostTag.findAll();
+        return servicePostTag.findAllPostTags();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostTag> getPostTagById(@PathVariable Long id) {
-        Optional<PostTag> userProfile = servicePostTag.findById(id);
-        return userProfile.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        PostTag postTag = servicePostTag.findPostTagById(id);
+        return postTag != null ? ResponseEntity.ok(postTag) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public PostTag createPostTag(@RequestBody PostTag userProfile) {
-        return servicePostTag.save(userProfile);
+    public ResponseEntity<PostTag> createPostTag(@RequestBody DtoPostTag dtoPostTag) {
+        PostTag createdPostTag = servicePostTag.createPostTag(dtoPostTag);
+        return ResponseEntity.ok(createdPostTag);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostTag> updatePostTag(@PathVariable Long id, @RequestBody PostTag postTagDetails) {
-        Optional<PostTag> postTag = servicePostTag.findById(id);
-        if (postTag.isPresent()) {
-            PostTag updatedPostTag = postTag.get();
-            //No Se Que Poner Aqui
-            return ResponseEntity.ok(servicePostTag.save(updatedPostTag));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity<PostTag> updatePostTag(@PathVariable Long id, @RequestBody DtoPostTag dtoPostTag) {
+        boolean updated = servicePostTag.updatePostTag(id, dtoPostTag);
+        return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PostTag> deletePostTag(@PathVariable Long id) {
-        if(servicePostTag.findById(id).isPresent()) {
-            servicePostTag.deleteById(id);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deletePostTag(@PathVariable Long id) {
+        boolean deleted = servicePostTag.deletePostTag(id);
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 }

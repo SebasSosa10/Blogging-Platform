@@ -1,6 +1,7 @@
 package EAM.Blogging.Controller;
 
 import EAM.Blogging.Model.UserFollow;
+import EAM.Blogging.Dto.DtoUserFollow;
 import EAM.Blogging.Service.ServiceUserFollow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,46 +13,40 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/userfollow")
 public class ControllerUserFollow {
+    
     @Autowired
     private ServiceUserFollow serviceUserFollow;
 
     @GetMapping
-    public List<UserFollow> getAllUserProfiles() {
-        return serviceUserFollow.findAll();
+    public List<UserFollow> getAllUserFollows() {
+        return serviceUserFollow.findAllFollows();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserFollow> getUserProfileById(@PathVariable Long id) {
-        Optional<UserFollow> userProfile = serviceUserFollow.findById(id);
-        return userProfile.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<UserFollow> getUserFollowById(@PathVariable Long id) {
+        UserFollow userFollow = serviceUserFollow.findUserFollowById(id);
+        return userFollow != null ? ResponseEntity.ok(userFollow) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public UserFollow createUserProfile(@RequestBody UserFollow userProfile) {
-        return serviceUserFollow.save(userProfile);
+    public UserFollow createUserFollow(@RequestBody DtoUserFollow dtoUserFollow) {
+        return serviceUserFollow.createUserFollow(dtoUserFollow);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserFollow> updateUserProfile(@PathVariable Long id, @RequestBody UserFollow userProfileDetails) {
-        Optional<UserFollow> userProfileFollow = serviceUserFollow.findById(id);
-        if (userProfileFollow.isPresent()) {
-            UserFollow updatedUserFollow = userProfileFollow.get();
-            updatedUserFollow.setFollower(userProfileDetails.getFollower());
-            updatedUserFollow.setFollowed(userProfileDetails.getFollowed());
-            return ResponseEntity.ok(serviceUserFollow.save(userProfileDetails));
-        }else{
+    public ResponseEntity<UserFollow> updateUserFollow(@PathVariable Long id, @RequestBody DtoUserFollow dtoUserFollow) {
+        boolean updated = serviceUserFollow.updateUserFollow(id, dtoUserFollow);
+        if (updated) {
+            UserFollow updatedUserFollow = serviceUserFollow.findUserFollowById(id);
+            return ResponseEntity.ok(updatedUserFollow);
+        } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserFollow> deleteUserProfile(@PathVariable Long id) {
-        if(serviceUserFollow.findById(id).isPresent()) {
-            serviceUserFollow.deleteById(id);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteUserFollow(@PathVariable Long id) {
+        boolean deleted = serviceUserFollow.deleteUserFollow(id);
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 }

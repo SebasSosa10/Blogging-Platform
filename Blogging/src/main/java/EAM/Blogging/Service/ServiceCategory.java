@@ -1,6 +1,7 @@
 package EAM.Blogging.Service;
 
 import EAM.Blogging.Model.Category;
+import EAM.Blogging.Dto.DtoCategory;
 import EAM.Blogging.Repository.RepositoryCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,22 +11,46 @@ import java.util.Optional;
 
 @Service
 public class ServiceCategory {
+
     @Autowired
-    private RepositoryCategory repositoryCategory;
+    private RepositoryCategory categoryRepository;
 
-    public List<Category> findAll() {
-        return repositoryCategory.findAll();
+    public List<Category> findAllCategories() {
+        return categoryRepository.findAll();
     }
 
-    public Optional<Category> findById(Long id) {
-        return repositoryCategory.findById(id);
+    public Category searchCategory(Long id) {
+        return categoryRepository.findById(id).orElse(null);
     }
 
-    public Category save(Category category) {
-        return repositoryCategory.save(category);
+    public Category createCategory(DtoCategory dtoCategory) {
+        Category category = new Category();
+        category.setName(dtoCategory.getName());
+        category.setDescription(dtoCategory.getDescription());
+        category.setPostCategories(dtoCategory.getPostCategories());
+        return categoryRepository.save(category);
     }
 
-    public void deleteById(Long id) {
-        repositoryCategory.deleteById(id);
+    public boolean updateCategory(Long id, DtoCategory dtoCategory) {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isPresent()) {
+            Category categoryToUpdate = optionalCategory.get();
+            categoryToUpdate.setName(dtoCategory.getName());
+            categoryToUpdate.setDescription(dtoCategory.getDescription());
+            categoryToUpdate.setPostCategories(dtoCategory.getPostCategories());
+            categoryRepository.save(categoryToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteCategory(Long id) {
+        if (categoryRepository.existsById(id)) {
+            categoryRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

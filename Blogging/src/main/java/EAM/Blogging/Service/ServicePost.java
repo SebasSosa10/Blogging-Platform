@@ -1,5 +1,6 @@
 package EAM.Blogging.Service;
 
+import EAM.Blogging.Dto.DtoPost;
 import EAM.Blogging.Model.Post;
 import EAM.Blogging.Repository.RepositoryPost;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +12,56 @@ import java.util.Optional;
 @Service
 public class ServicePost {
     @Autowired
-    private RepositoryPost repositoryPost;
+    private RepositoryPost postRepository;
 
-    public List<Post> findAll() {
-        return repositoryPost.findAll();
+    public List<Post> findAllPosts() {
+        return postRepository.findAll();
     }
 
-    public Optional<Post> findById(Long id) {
-        return repositoryPost.findById(id);
+    public Post findPostById(Long id) {
+        return postRepository.findById(id).orElse(null);
     }
 
-    public Post save(Post postCategory) {
-        return repositoryPost.save(postCategory);
+
+    public Post createPost(DtoPost dtoPost) {
+        Post post = new Post();
+        post.setTitle(dtoPost.getTitle());
+        post.setContent(dtoPost.getContent());
+        post.setLikes(dtoPost.getLikes());
+        post.setPublisheddate(dtoPost.getPublisheddate());
+        post.setUser(dtoPost.getUser());
+        post.setState(dtoPost.getState());
+        post.setPostTags(dtoPost.getPostTags());
+        post.setComments(dtoPost.getComments());
+        return postRepository.save(post);
     }
 
-    public void deleteById(Long id) {
-        repositoryPost.deleteById(id);
+
+    public boolean updatePost(Long id, DtoPost dtoPost) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if (optionalPost.isPresent()) {
+            Post postToUpdate = optionalPost.get();
+            postToUpdate.setTitle(dtoPost.getTitle());
+            postToUpdate.setContent(dtoPost.getContent());
+            postToUpdate.setLikes(dtoPost.getLikes());
+            postToUpdate.setPublisheddate(dtoPost.getPublisheddate());
+            postToUpdate.setUser(dtoPost.getUser());
+            postToUpdate.setState(dtoPost.getState());
+            postToUpdate.setPostTags(dtoPost.getPostTags());
+            postToUpdate.setComments(dtoPost.getComments());
+            postRepository.save(postToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deletePost(Long id) {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

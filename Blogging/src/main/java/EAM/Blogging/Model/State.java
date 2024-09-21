@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idState;
+    private Long idState;
 
     @Column(name = "name")
     private String name;
@@ -19,8 +19,7 @@ public class State {
         super();
     }
 
-    public State(int idState, String name, Post post) {
-        this.idState = idState;
+    public State(String name, Post post) {
         this.name = name;
         this.post = post;
     }
@@ -33,11 +32,19 @@ public class State {
         this.name = name;
     }
 
-    public int getIdState() {
+    public Long getIdState() {
         return idState;
     }
 
-    public void setIdState(int idState) {
+    public void setIdState(Long idState) {
         this.idState = idState;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

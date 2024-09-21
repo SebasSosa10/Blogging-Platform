@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class UserFollow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUserfollow;
+    private Long idUserfollow;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "follower_id")
@@ -21,18 +21,17 @@ public class UserFollow {
         super();
     }
 
-    public UserFollow(int idUserfollow, User follower, User followed) {
-        this.idUserfollow = idUserfollow;
+    public UserFollow(User follower, User followed) {
         this.follower = follower;
         this.followed = followed;
     }
 
 
-    public int getIdUserfollow() {
+    public Long getIdUserfollow() {
         return idUserfollow;
     }
 
-    public void setIdUserfollow(int idUserfollow) {
+    public void setIdUserfollow(Long idUserfollow) {
         this.idUserfollow = idUserfollow;
     }
 

@@ -1,5 +1,6 @@
 package EAM.Blogging.Service;
 
+import EAM.Blogging.Dto.DtoUser;
 import EAM.Blogging.Model.User;
 import EAM.Blogging.Repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +12,50 @@ import java.util.Optional;
 @Service
 public class ServiceUser {
     @Autowired
-    private RepositoryUser repositoryUser;
+    private RepositoryUser userRepository;
 
-    public List<User> findAll() {
-        return repositoryUser.findAll();
-
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
-    public Optional<User> findById(Long id) {
-        return repositoryUser.findById(id);
+    public User findUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
-    public User save(User user) {
-        return repositoryUser.save(user);
+    public User createUser(DtoUser dtoUser) {
+        User user = new User();
+        user.setEmail(dtoUser.getEmail());
+        user.setPassword(dtoUser.getPassword());
+        user.setUserProfile(dtoUser.getUserProfile());
+        user.setPosts(dtoUser.getPosts());
+        user.setComments(dtoUser.getComments());
+        user.setRole(dtoUser.getRole());
+        return userRepository.save(user);
     }
 
-    public void deleteById(Long id) {
-        repositoryUser.deleteById(id);
+    public boolean updateUser(Long id, DtoUser dtoUser) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User userToUpdate = optionalUser.get();
+            userToUpdate.setEmail(dtoUser.getEmail());
+            userToUpdate.setPassword(dtoUser.getPassword());
+            userToUpdate.setUserProfile(dtoUser.getUserProfile());
+            userToUpdate.setPosts(dtoUser.getPosts());
+            userToUpdate.setComments(dtoUser.getComments());
+            userToUpdate.setRole(dtoUser.getRole());
+            userRepository.save(userToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

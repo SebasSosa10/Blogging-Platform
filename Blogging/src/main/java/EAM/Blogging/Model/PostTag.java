@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class PostTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPostTag;
+    private Long idPostTag;
 
     @ManyToOne   // La llave foránea
     @JoinColumn(name = "Post_id")  // Referencia a la columna de llave
@@ -21,17 +21,16 @@ public class PostTag {
         super();
     }
 
-    public PostTag(int idPostTag, Post post, Tag tag) {
-        this.idPostTag = idPostTag;
+    public PostTag(Post post, Tag tag) {
         this.post = post;
         this.tag = tag;
     }
 
-    public int getIdPostTag() {
+    public Long getIdPostTag() {
         return idPostTag;
     }
 
-    public void setIdPostTag(int idPostTag) {
+    public void setIdPostTag(Long idPostTag) {
         this.idPostTag = idPostTag;
     }
 

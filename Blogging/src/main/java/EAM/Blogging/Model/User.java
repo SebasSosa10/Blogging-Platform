@@ -9,7 +9,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUser;
+    private Long idUser;
 
     @Column (name = "email")
     private String email;
@@ -36,8 +36,7 @@ public class User {
         super();
     }
 
-    public User(int idUser, Role role, List<CommentS> comments, List<Post> posts, UserProfile userProfile, String password, String email) {
-        this.idUser = idUser;
+    public User(Role role, List<CommentS> comments, List<Post> posts, UserProfile userProfile, String password, String email) {
         this.role = role;
         this.comments = comments;
         this.posts = posts;
@@ -46,11 +45,11 @@ public class User {
         this.email = email;
     }
 
-    public int getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCategory;
+    private Long idCategory;
 
     @Column(name = "name")
     private String name;
@@ -24,18 +24,17 @@ public class Category {
         super();
     }
 
-    public Category(int idCategory, String name, String description, List<PostCategory> postCategories) {
-        this.idCategory = idCategory;
+    public Category(String name, String description, List<PostCategory> postCategories) {
         this.name = name;
         this.description = description;
         this.postCategories = postCategories;
     }
 
-    public int getIdCategory() {
+    public Long getIdCategory() {
         return idCategory;
     }
 
-    public void setIdCategory(int idCategory) {
+    public void setIdCategory(Long idCategory) {
         this.idCategory = idCategory;
     }
 

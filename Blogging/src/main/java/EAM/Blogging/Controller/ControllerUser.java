@@ -1,6 +1,7 @@
 package EAM.Blogging.Controller;
 
 import EAM.Blogging.Model.User;
+import EAM.Blogging.Dto.DtoUser;
 import EAM.Blogging.Service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,43 +17,32 @@ public class ControllerUser {
     private ServiceUser serviceUser;
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return serviceUser.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = serviceUser.findAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> userProfile = serviceUser.findById(id);
-        return userProfile.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        User user = serviceUser.findUserById(id);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User userProfile) {
-        return serviceUser.save(userProfile);
+    public ResponseEntity<User> createUser(@RequestBody DtoUser dtoUser) {
+        User newUser = serviceUser.createUser(dtoUser);
+        return ResponseEntity.ok(newUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        Optional<User> userProfile = serviceUser.findById(id);
-        if (userProfile.isPresent()) {
-            User updatedUser = userProfile.get();
-            updatedUser.setPassword(userDetails.getPassword());
-            updatedUser.setEmail(userDetails.getEmail());
-            updatedUser.setRole(userDetails.getRole());
-            return ResponseEntity.ok(serviceUser.save(updatedUser));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody DtoUser dtoUser) {
+        boolean updated = serviceUser.updateUser(id, dtoUser);
+        return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-        if(serviceUser.findById(id).isPresent()) {
-            serviceUser.deleteById(id);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        boolean deleted = serviceUser.deleteUser(id);
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 }

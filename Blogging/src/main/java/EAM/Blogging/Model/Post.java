@@ -11,7 +11,7 @@ import java.util.List;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPost;
+    private Long idPost;
 
     @Column(name = "title")
     private String title;
@@ -43,8 +43,7 @@ public class Post {
         super();
     }
 
-    public Post(int idPost, String title, String content, int likes, Date publisheddate, User user, State state, List<PostTag> postTags, List<CommentS> comments) {
-        this.idPost = idPost;
+    public Post(String title, String content, int likes, Date publisheddate, User user, State state, List<PostTag> postTags, List<CommentS> comments) {
         this.title = title;
         this.content = content;
         this.likes = likes;
@@ -55,11 +54,11 @@ public class Post {
         this.comments = comments;
     }
 
-    public int getIdPost() {
+    public Long getIdPost() {
         return idPost;
     }
 
-    public void setIdPost(int idPost) {
+    public void setIdPost(Long idPost) {
         this.idPost = idPost;
     }
 

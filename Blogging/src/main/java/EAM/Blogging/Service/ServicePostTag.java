@@ -1,5 +1,6 @@
 package EAM.Blogging.Service;
 
+import EAM.Blogging.Dto.DtoPostTag;
 import EAM.Blogging.Model.PostTag;
 import EAM.Blogging.Repository.RepositoryPostTag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +13,42 @@ import java.util.Optional;
 public class ServicePostTag {
 
     @Autowired
-    private RepositoryPostTag repositoryPostTag;
+    private RepositoryPostTag postTagRepository;
 
-    public List<PostTag> findAll() {
-        return repositoryPostTag.findAll();
+    public List<PostTag> findAllPostTags() {
+        return postTagRepository.findAll();
     }
 
-    public Optional<PostTag> findById(Long id) {
-        return repositoryPostTag.findById(id);
+    public PostTag findPostTagById(Long id) {
+        return postTagRepository.findById(id).orElse(null);
     }
 
-    public PostTag save(PostTag postTag) {
-        return repositoryPostTag.save(postTag);
+    public PostTag createPostTag(DtoPostTag dtoPostTag) {
+        PostTag postTag = new PostTag();
+        postTag.setPost(dtoPostTag.getPost());
+        postTag.setTag(dtoPostTag.getTag());
+        return postTagRepository.save(postTag);
     }
 
-    public void deleteById(Long id) {
-        repositoryPostTag.deleteById(id);
+    public boolean updatePostTag(Long id, DtoPostTag dtoPostTag) {
+        Optional<PostTag> optionalPostTag = postTagRepository.findById(id);
+        if (optionalPostTag.isPresent()) {
+            PostTag postTagToUpdate = optionalPostTag.get();
+            postTagToUpdate.setPost(dtoPostTag.getPost());
+            postTagToUpdate.setTag(dtoPostTag.getTag());
+            postTagRepository.save(postTagToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deletePostTag(Long id) {
+        if (postTagRepository.existsById(id)) {
+            postTagRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

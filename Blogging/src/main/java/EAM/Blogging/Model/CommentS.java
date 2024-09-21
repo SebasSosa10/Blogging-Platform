@@ -9,7 +9,7 @@ import java.util.Date;
 public class CommentS {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idComments;
+    private Long idComments;
 
     @Column (name = "content")
     private String content;
@@ -32,8 +32,7 @@ public class CommentS {
         super();
     }
 
-    public CommentS(int idComments, String content, boolean approved, Date publisheddate, User user, Post post) {
-        this.idComments = idComments;
+    public CommentS(String content, boolean approved, Date publisheddate, User user, Post post) {
         this.content = content;
         this.approved = approved;
         this.publisheddate = publisheddate;
@@ -41,11 +40,11 @@ public class CommentS {
         this.post = post;
     }
 
-    public int getIdComments() {
+    public Long getIdComments() {
         return idComments;
     }
 
-    public void setIdComments(int idComments) {
+    public void setIdComments(Long idComments) {
         this.idComments = idComments;
     }
 

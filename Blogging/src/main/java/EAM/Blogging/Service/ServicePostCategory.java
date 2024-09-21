@@ -1,7 +1,7 @@
 package EAM.Blogging.Service;
 
+import EAM.Blogging.Dto.DtoPostCategory;
 import EAM.Blogging.Model.PostCategory;
-import EAM.Blogging.Model.PostTag;
 import EAM.Blogging.Repository.RepositoryPostCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,21 +12,42 @@ import java.util.Optional;
 @Service
 public class ServicePostCategory {
     @Autowired
-    private RepositoryPostCategory repositoryPostCategory;
+    private RepositoryPostCategory postCategoryRepository;
 
-    public List<PostCategory> findAll() {
-        return repositoryPostCategory.findAll();
+    public List<PostCategory> findAllPostCategories() {
+        return postCategoryRepository.findAll();
     }
 
-    public Optional<PostCategory> findById(Long id) {
-        return repositoryPostCategory.findById(id);
+    public PostCategory findPostCategoryById(Long id) {
+        return postCategoryRepository.findById(id).orElse(null);
     }
 
-    public PostCategory save(PostCategory postCategory) {
-        return repositoryPostCategory.save(postCategory);
+    public PostCategory createPostCategory(DtoPostCategory dtoPostCategory) {
+        PostCategory postCategory = new PostCategory();
+        postCategory.setPost(dtoPostCategory.getPost());
+        postCategory.setCategory(dtoPostCategory.getCategory());
+        return postCategoryRepository.save(postCategory);
     }
 
-    public void deleteById(Long id) {
-        repositoryPostCategory.deleteById(id);
+    public boolean updatePostCategory(Long id, DtoPostCategory dtoPostCategory) {
+        Optional<PostCategory> optionalPostCategory = postCategoryRepository.findById(id);
+        if (optionalPostCategory.isPresent()) {
+            PostCategory postCategoryToUpdate = optionalPostCategory.get();
+            postCategoryToUpdate.setPost(dtoPostCategory.getPost());
+            postCategoryToUpdate.setCategory(dtoPostCategory.getCategory());
+            postCategoryRepository.save(postCategoryToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deletePostCategory(Long id) {
+        if (postCategoryRepository.existsById(id)) {
+            postCategoryRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
