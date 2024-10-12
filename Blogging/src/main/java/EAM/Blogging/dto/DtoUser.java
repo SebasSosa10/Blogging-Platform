@@ -3,7 +3,7 @@ package EAM.Blogging.dto;
 import EAM.Blogging.model.CommentS;
 import EAM.Blogging.model.Post;
 import EAM.Blogging.model.Role;
-import EAM.Blogging.model.UserProfile;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
 import java.util.List;
@@ -15,7 +15,9 @@ public class DtoUser {
     @NotEmpty(message = "Password field must be filled out")
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
-    private UserProfile userProfile;
+    private String biography;
+    @NotEmpty(message = "Username field must be filled out")
+    private String userName;
     private List<Post> posts;
     private List<CommentS> comments;
     private Role role;
@@ -24,11 +26,10 @@ public class DtoUser {
         super();
     }
 
-    public DtoUser(Role role, List<CommentS> comments, List<Post> posts, UserProfile userProfile, String password, String email) {
+    public DtoUser(Role role, List<CommentS> comments, List<Post> posts, String password, String email) {
         this.role = role;
         this.comments = comments;
         this.posts = posts;
-        this.userProfile = userProfile;
         this.password = password;
         this.email = email;
     }
@@ -57,14 +58,6 @@ public class DtoUser {
         this.posts = posts;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
     public List<CommentS> getComments() {
         return comments;
     }
@@ -81,5 +74,18 @@ public class DtoUser {
         this.role = role;
     }
 
+    public String getBiography() {
+        return biography;
+    }
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
 

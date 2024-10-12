@@ -1,24 +1,36 @@
 package EAM.Blogging.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "User")
-public class User {
+@Data
+@Builder
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
 
-    @Column (name = "email")
+    @Column (name = "email", unique = true, nullable = false)
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "user")
-    private UserProfile userProfile;
+    @Column(name = "biography")
+    private String biography;
+
+    @Column (name = "userName", unique = true, nullable = false)
+    private String userName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)   //referencia de una llave foranea en algun lugar   cascada: si elimna un hotel las habitaciones existentes se eliminan
     private List<Post> posts;
@@ -36,15 +48,45 @@ public class User {
         super();
     }
 
-    public User(Role role, List<CommentS> comments, List<Post> posts, UserProfile userProfile, String password, String email) {
-        this.role = role;
-        this.comments = comments;
-        this.posts = posts;
-        this.userProfile = userProfile;
-        this.password = password;
+    public User(Long idUser, String email, String password, String biography, String userName, List<Post> posts, List<CommentS> comments, Role role) {
+        this.idUser = idUser;
         this.email = email;
+        this.password = password;
+        this.biography = biography;
+        this.userName = userName;
+        this.posts = posts;
+        this.comments = comments;
+        this.role = role;
     }
 
+    // Implementación de los métodos de UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null; // Sin roles por simplicidad
+    }
+
+    //Gets And Setters Of Login
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    //Getters And Setters From The Class
     public Long getIdUser() {
         return idUser;
     }
@@ -65,6 +107,11 @@ public class User {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -75,14 +122,6 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
-    }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
     }
 
     public List<CommentS> getComments() {
@@ -101,5 +140,18 @@ public class User {
         this.role = role;
     }
 
+    public String getBiography() {
+        return biography;
+    }
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }
 

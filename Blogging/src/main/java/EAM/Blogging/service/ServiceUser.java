@@ -26,8 +26,9 @@ public class ServiceUser {
         User user = new User();
         user.setEmail(dtoUser.getEmail());
         user.setPassword(dtoUser.getPassword());
-        user.setUserProfile(dtoUser.getUserProfile());
         user.setPosts(dtoUser.getPosts());
+        user.setUserName(dtoUser.getUserName());
+        user.setBiography(dtoUser.getBiography());
         user.setComments(dtoUser.getComments());
         user.setRole(dtoUser.getRole());
         return userRepository.save(user);
@@ -39,7 +40,8 @@ public class ServiceUser {
             User userToUpdate = optionalUser.get();
             userToUpdate.setEmail(dtoUser.getEmail());
             userToUpdate.setPassword(dtoUser.getPassword());
-            userToUpdate.setUserProfile(dtoUser.getUserProfile());
+            userToUpdate.setBiography(dtoUser.getBiography());
+            userToUpdate.setUserName(dtoUser.getUserName());
             userToUpdate.setPosts(dtoUser.getPosts());
             userToUpdate.setComments(dtoUser.getComments());
             userToUpdate.setRole(dtoUser.getRole());
@@ -57,5 +59,9 @@ public class ServiceUser {
         } else {
             return false;
         }
+    }
+
+    public Optional<User> findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 }
