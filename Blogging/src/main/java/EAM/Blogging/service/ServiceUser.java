@@ -26,10 +26,8 @@ public class ServiceUser {
         User user = new User();
         user.setEmail(dtoUser.getEmail());
         user.setPassword(dtoUser.getPassword());
-        user.setPosts(dtoUser.getPosts());
         user.setUserName(dtoUser.getUserName());
         user.setBiography(dtoUser.getBiography());
-        user.setComments(dtoUser.getComments());
         user.setRole(dtoUser.getRole());
         return userRepository.save(user);
     }
@@ -42,8 +40,6 @@ public class ServiceUser {
             userToUpdate.setPassword(dtoUser.getPassword());
             userToUpdate.setBiography(dtoUser.getBiography());
             userToUpdate.setUserName(dtoUser.getUserName());
-            userToUpdate.setPosts(dtoUser.getPosts());
-            userToUpdate.setComments(dtoUser.getComments());
             userToUpdate.setRole(dtoUser.getRole());
             userRepository.save(userToUpdate);
             return true;

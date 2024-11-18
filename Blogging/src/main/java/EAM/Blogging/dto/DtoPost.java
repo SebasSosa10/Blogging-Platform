@@ -1,13 +1,9 @@
 package EAM.Blogging.dto;
 
-import EAM.Blogging.model.CommentS;
-import EAM.Blogging.model.PostTag;
-import EAM.Blogging.model.State;
 import EAM.Blogging.model.User;
 import jakarta.validation.constraints.*;
 
 import java.util.Date;
-import java.util.List;
 
 public class DtoPost {
     @NotBlank(message = "Title cannot be empty")
@@ -18,24 +14,20 @@ public class DtoPost {
     private int likes;
     @NotNull(message = "Published date cannot be null")
     private Date publishedDate;
+    private boolean isPublished;
     private User user; // Reference to the User object
-    private State state; // Reference to the State object
-    private List<PostTag> postTags;
-    private List<CommentS> comments;
 
     public DtoPost() {
         super();
     }
 
-    public DtoPost(String title, String content, int likes, Date publishedDate, User user, State state, List<PostTag> postTags, List<CommentS> comments) {
+    public DtoPost(String title, String content, int likes, User user) {
         this.title = title;
         this.content = content;
         this.likes = likes;
-        this.publishedDate = publishedDate;
+        this.publishedDate = new Date();
+        this.isPublished = false;
         this.user = user;
-        this.state = state;
-        this.postTags = postTags;
-        this.comments = comments;
     }
 
 
@@ -67,35 +59,18 @@ public class DtoPost {
         this.publishedDate = publishedDate;
     }
 
+    public boolean isPublished() {
+        return isPublished;
+    }
+    public void setPublished(boolean published) {
+        isPublished = published;
+    }
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public List<PostTag> getPostTags() {
-        return postTags;
-    }
-
-    public void setPostTags(List<PostTag> postTags) {
-        this.postTags = postTags;
-    }
-
-    public List<CommentS> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentS> comments) {
-        this.comments = comments;
     }
 }

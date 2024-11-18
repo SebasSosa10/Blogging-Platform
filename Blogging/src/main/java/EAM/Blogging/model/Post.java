@@ -25,13 +25,12 @@ public class Post {
     @Column (name = "published_date")
     private Date publisheddate;
 
+    @Column (name = "is_Published")
+    private boolean isPublished;
+
     @ManyToOne   // la llave foranea
     @JoinColumn(name = "user_id")  // referenciar la columna de llave
     private User user;   // refencia del objeto
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "state_id")
-    private State state;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostTag> postTags;
@@ -43,15 +42,19 @@ public class Post {
         super();
     }
 
-    public Post(String title, String content, int likes, Date publisheddate, User user, State state, List<PostTag> postTags, List<CommentS> comments) {
+    public Post(String title, String content, int likes, Date publisheddate, User user, boolean isPublished, List<PostTag> postTags, List<CommentS> comments) {
         this.title = title;
         this.content = content;
         this.likes = likes;
         this.publisheddate = publisheddate;
         this.user = user;
-        this.state = state;
+        this.isPublished = isPublished;
         this.postTags = postTags;
         this.comments = comments;
+    }
+
+    public void addLike(){
+        this.likes++;
     }
 
     public Long getIdPost() {
@@ -102,12 +105,12 @@ public class Post {
         this.user = user;
     }
 
-    public State getState() {
-        return state;
+    public boolean getIsPublished() {
+        return isPublished;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setIsPublished(boolean isPublished) {
+        this.isPublished = isPublished;
     }
 
     public List<PostTag> getPostTags() {

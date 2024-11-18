@@ -27,7 +27,6 @@ public class ServiceCategory {
         Category category = new Category();
         category.setName(dtoCategory.getName());
         category.setDescription(dtoCategory.getDescription());
-        category.setPostCategories(dtoCategory.getPostCategories());
         return categoryRepository.save(category);
     }
 
@@ -37,7 +36,6 @@ public class ServiceCategory {
             Category categoryToUpdate = optionalCategory.get();
             categoryToUpdate.setName(dtoCategory.getName());
             categoryToUpdate.setDescription(dtoCategory.getDescription());
-            categoryToUpdate.setPostCategories(dtoCategory.getPostCategories());
             categoryRepository.save(categoryToUpdate);
             return true;
         } else {

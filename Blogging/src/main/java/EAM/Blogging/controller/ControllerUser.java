@@ -34,7 +34,6 @@ public class ControllerUser {
         return ResponseEntity.ok(users);
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = serviceUser.findUserById(id);

@@ -39,9 +39,17 @@ public class ControllerPost {
         return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/published/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable Long id) {
+        boolean updated = servicePost.changePostState(id);
+        return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         boolean deleted = servicePost.deletePost(id);
         return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
+
+
 }

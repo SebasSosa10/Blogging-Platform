@@ -17,9 +17,8 @@ public class DtoUser {
     private String password;
     private String biography;
     @NotEmpty(message = "Username field must be filled out")
+
     private String userName;
-    private List<Post> posts;
-    private List<CommentS> comments;
     private Role role;
 
     public DtoUser() {
@@ -28,8 +27,6 @@ public class DtoUser {
 
     public DtoUser(Role role, List<CommentS> comments, List<Post> posts, String password, String email) {
         this.role = role;
-        this.comments = comments;
-        this.posts = posts;
         this.password = password;
         this.email = email;
     }
@@ -48,22 +45,6 @@ public class DtoUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public List<CommentS> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentS> comments) {
-        this.comments = comments;
     }
 
     public Role getRole() {

@@ -24,7 +24,6 @@ public class ServiceTag {
     public Tag createTag(DtoTag dtoTag) {
         Tag tag = new Tag();
         tag.setName(dtoTag.getName());
-        tag.setPostTags(dtoTag.getPostTags());
         return tagRepository.save(tag);
     }
 
@@ -33,7 +32,6 @@ public class ServiceTag {
         if (optionalTag.isPresent()) {
             Tag tagToUpdate = optionalTag.get();
             tagToUpdate.setName(dtoTag.getName());
-            tagToUpdate.setPostTags(dtoTag.getPostTags());
             tagRepository.save(tagToUpdate);
             return true;
         } else {
