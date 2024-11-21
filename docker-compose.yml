@@ -1,0 +1,46 @@
+services:
+  #  --------------------------------------------
+  app:
+    build:
+      context: ./User-product
+      dockerfile: Dockerfile
+    container_name: java-app-sosiJd
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8003:8080"
+    networks:
+      - app-network
+  #  --------------------------------------------
+  mysql:
+    build:
+      context: ./MySQL
+      dockerfile: Dockerfile
+    container_name: mysql-db-sosiJd
+    volumes:
+      - ./MySQL/mysql_data:/var/lib/mysql
+    ports:
+      - "8005:3306"
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD","mysql", "-u", "usernormal", "-proot" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  #  --------------------------------------------
+  adminer:
+    image: adminer
+    container_name: adminer-sosiJd
+    depends_on:
+      - mysql
+    ports:
+      - "8004:8080"
+    networks:
+      - app-network
+#  --------------------------------------------
+networks:
+  app-network:
+    driver: bridge
+    name: app-network
