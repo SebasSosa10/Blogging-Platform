@@ -1,58 +1,62 @@
-## Descripción del Proyecto
+## Project Description
 
-Este proyecto consiste en la construcción de una *plataforma de blogging* utilizando *Spring Boot*. La plataforma permite a los usuarios gestionar sus blogs, interactuar con otros usuarios, y ofrece un sistema de roles con diferentes niveles de permisos, asegurando que la administración de la plataforma sea eficiente y segura. 
+This project involves building a *blogging platform* using *Spring Boot*. The platform enables users to manage their blogs, interact with other users, and provides a role-based system with different permission levels, ensuring efficient and secure administration.
 
-### Funcionalidades principales:
-- Gestión de usuarios y autenticación.
-- Creación, edición y eliminación de posts de blog.
-- Interacción con los posts mediante comentarios, likes/dislikes.
-- Administración de categorías y etiquetas.
-- Búsqueda y filtrado de contenido.
-- Panel de administración para moderar la plataforma.
+### Key Features:
+- User management and authentication.
+- Creation, editing, and deletion of blog posts.
+- User interaction through comments, likes/dislikes.
+- Management of categories and tags.
+- Content search and filtering.
+- Admin panel for platform moderation.
 
-## Requerimientos Funcionales
+---
 
-### 1. Gestión de Usuarios
-- *Registro de Usuarios*: Los usuarios pueden registrarse proporcionando un nombre de usuario, correo electrónico y contraseña.
-- *Autenticación*: Los usuarios pueden iniciar sesión y cerrar sesión.
-- *Roles de Usuario*: Hay dos roles principales:
-  - *ADMIN*: Gestiona el contenido y a los usuarios.
-  - *AUTHOR*: Crea y gestiona sus propios posts.
-- *Perfil de Usuario*: Los usuarios pueden ver y editar su perfil personal.
+## Functional Requirements
 
-### 2. Gestión de Blogs
-- *Creación de Posts*: Los autores pueden crear posts con título, contenido, etiquetas y categoría.
-- *Edición de Posts*: Los autores pueden modificar sus posts ya publicados.
-- *Eliminación de Posts*: Los autores pueden eliminar sus posts, y los administradores pueden eliminar cualquier post.
-- *Publicación/Despublicación*: Los autores pueden publicar o despublicar sus posts.
-- *Vista de Posts*: Los posts publicados son visibles para todos, tanto usuarios registrados como invitados.
+### 1. User Management
+- **User Registration**: Users can sign up by providing a username, email, and password.
+- **Authentication**: Users can log in and log out securely.
+- **User Roles**: There are two primary roles:
+  - **ADMIN**: Manages platform content and users.
+  - **AUTHOR**: Creates and manages their own posts.
+- **User Profile**: Users can view and edit their personal profile.
 
-### 3. Interacción de Usuarios
-- *Comentarios*: Los usuarios registrados pueden comentar en los posts. Los administradores moderan los comentarios.
-- *Likes/Dislikes*: Los usuarios pueden calificar los posts con "me gusta" o "no me gusta".
-- *Seguimiento de Autores*: Los usuarios pueden seguir a autores específicos para recibir notificaciones de nuevos posts.
+### 2. Blog Management
+- **Post Creation**: Authors can create posts with a title, content, tags, and category.
+- **Post Editing**: Authors can update their published posts.
+- **Post Deletion**: Authors can delete their own posts, and admins can delete any post.
+- **Publish/Unpublish**: Authors can publish or unpublish their posts.
+- **Post View**: Published posts are visible to everyone, including guests.
 
-### 4. Categorías y Etiquetas
-- *Gestión de Categorías*: Los administradores pueden crear, editar y eliminar categorías.
-- *Etiquetas*: Los autores pueden etiquetar sus posts con palabras clave para facilitar la búsqueda.
+### 3. User Interaction
+- **Comments**: Registered users can comment on posts. Admins moderate comments.
+- **Likes/Dislikes**: Users can rate posts with "like" or "dislike."
+- **Follow Authors**: Users can follow specific authors to get notifications for new posts.
 
-### 5. Búsqueda y Filtros
-- *Búsqueda*: Los usuarios pueden buscar posts por título, contenido, etiquetas y categorías.
-- *Filtros*: Los posts se pueden filtrar por autor, categoría, fecha de publicación y popularidad.
+### 4. Categories and Tags
+- **Category Management**: Admins can create, edit, and delete categories.
+- **Tags**: Authors can tag their posts with keywords for easier searchability.
 
-### 6. Seguridad
-- *Autenticación JWT*: Implementación de autenticación basada en tokens JWT para asegurar las APIs.
-- *Control de Acceso*: Los endpoints están protegidos según el rol del usuario.
+### 5. Search and Filters
+- **Search**: Users can search posts by title, content, tags, and categories.
+- **Filters**: Posts can be filtered by author, category, publication date, and popularity.
 
-### 7. Administración
-- *Panel de Administración*: Un panel para que los administradores gestionen usuarios, posts, comentarios y categorías.
-- *Moderación de Comentarios*: Los administradores pueden aprobar o rechazar comentarios.
+### 6. Security
+- **JWT Authentication**: Secure token-based authentication using JWT.
+- **Access Control**: API endpoints are protected based on user roles.
 
-## Tecnologías Utilizadas
+### 7. Administration
+- **Admin Panel**: A dashboard for admins to manage users, posts, comments, and categories.
+- **Comment Moderation**: Admins can approve or reject comments.
 
-- *Java* (con Spring Boot) para la creación del backend.
-- *Spring Security* para la autenticación y control de roles.
-- *JWT* para la gestión de sesiones seguras.
-- *JPA/Hibernate* para la gestión de la base de datos.
-- *MySQL/PostgreSQL* como base de datos relacional.
-- *Thymeleaf/React.js* para el frontend (opcional dependiendo del alcance).
+---
+
+## Technologies Used
+
+- **Java** (with Spring Boot) for backend development.
+- **Spring Security** for authentication and role management.
+- **JWT** for secure session handling.
+- **JPA/Hibernate** for database management.
+- **MySQL/PostgreSQL** as the relational database.
+- **Thymeleaf/React.js** for frontend development (optional depending on the scope).
