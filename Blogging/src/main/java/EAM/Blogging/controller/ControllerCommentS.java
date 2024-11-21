@@ -29,20 +29,31 @@ public class ControllerCommentS {
     }
 
     @PostMapping
-    public ResponseEntity<CommentS> createComment(@Valid @RequestBody DtoCommentS dtoCommentS) {
-        CommentS createdComment = serviceComments.createComment(dtoCommentS);
-        return ResponseEntity.ok(createdComment);
+    public ResponseEntity<?> createComment(@Valid @RequestBody DtoCommentS dtoCommentS) {
+        try {
+            CommentS createdComment = serviceComments.createComment(dtoCommentS);
+            return ResponseEntity.ok(createdComment);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CommentS> updateComment(@PathVariable Long id, @Valid @RequestBody DtoCommentS dtoCommentS) {
-        boolean updated = serviceComments.updateComment(id, dtoCommentS);
-        return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<?> updateComment(@PathVariable Long id, @Valid @RequestBody DtoCommentS dtoCommentS) {
+        try {
+            boolean updated = serviceComments.updateComment(id, dtoCommentS);
+            return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
-        boolean deleted = serviceComments.deleteComment(id);
-        return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable Long id,
+            @RequestParam Long currentUserId,
+            @RequestParam String currentUserRole) {
+        boolean deleted = serviceComments.deleteComment(id, currentUserId, currentUserRole);
+        return deleted ? ResponseEntity.ok().build() : ResponseEntity.status(403).build(); // 403 Forbidden si no tiene permisos
     }
 }
