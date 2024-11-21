@@ -30,8 +30,6 @@ public class ServicePost {
     public Post createPost(DtoPost dtoPost) {
         Post post = new Post();
         Optional<User> optionalUser = userRepository.findById(dtoPost.getUser().getIdUser());
-        //Por revisar - Uso el optional como por ver como sirve mas que todo
-        //En el documento pone que las etiquetas y categoria se pone inmediato pero como no es una aplicacion con interfaz lo dejo asi
         if(optionalUser.isPresent() && optionalUser.get().getRole().getName().equals("AUTHOR")){
             post.setTitle(dtoPost.getTitle());
             post.setContent(dtoPost.getContent());
@@ -40,31 +38,33 @@ public class ServicePost {
             post.setIsPublished(dtoPost.isPublished());
             return postRepository.save(post);
         }
-        //No se si este bien asi??
         return null;
     }
 
-    //Añadir verificacion de si es el mismo autor
+
     public boolean updatePost(Long id, DtoPost dtoPost) {
         Optional<Post> optionalPost = postRepository.findById(id);
         if (optionalPost.isPresent()) {
-            Post postToUpdate = optionalPost.get();
-            postToUpdate.setTitle(dtoPost.getTitle());
-            postToUpdate.setContent(dtoPost.getContent());
-            postToUpdate.setLikes(dtoPost.getLikes());
-            postToUpdate.setPublisheddate(dtoPost.getPublisheddate());
-            postToUpdate.setUser(dtoPost.getUser());
-            postToUpdate.setIsPublished(dtoPost.isPublished());
-            postRepository.save(postToUpdate);
-            return true;
-        } else {
-            return false;
+            if(optionalPost.get().getUser().equals(dtoPost.getUser())){
+                Post postToUpdate = optionalPost.get();
+                postToUpdate.setTitle(dtoPost.getTitle());
+                postToUpdate.setContent(dtoPost.getContent());
+                postToUpdate.setLikes(dtoPost.getLikes());
+                postToUpdate.setPublisheddate(dtoPost.getPublisheddate());
+                postToUpdate.setUser(dtoPost.getUser());
+                postToUpdate.setIsPublished(dtoPost.isPublished());
+                postRepository.save(postToUpdate);
+                return true;
+            }
         }
+        return false;
     }
 
-    public boolean deletePost(Long id) {
-        //Verificar el usuario?
-        if (postRepository.existsById(id)) {
+    public boolean deletePost(Long id, Long idUser) {
+        Optional<User> optionalUser = userRepository.findById(idUser);
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if (optionalUser.isPresent() && optionalPost.isPresent() &&
+                (optionalUser.get().equals(optionalPost.get().getUser()) || optionalUser.get().getRole().getName().equals("ADMIN"))) {
             postRepository.deleteById(id);
             return true;
         } else {
@@ -75,7 +75,6 @@ public class ServicePost {
     //a
     public boolean changePostState(Long id) {
         Optional<Post> optionalPost = postRepository.findById(id);
-        //Verificar si es el autor? no se bien como hacer este
         if (optionalPost.isPresent()) {
             Post postToUpdate = optionalPost.get();
             postToUpdate.setIsPublished(!postToUpdate.getIsPublished());
@@ -86,11 +85,10 @@ public class ServicePost {
         }
     }
 
-    public Post addUserLike(Long idPost, Long idUser) {
+    public Post addPostLike(Long idPost) {
         Optional<Post> optionalPost = postRepository.findById(idPost);
         if (optionalPost.isPresent()) {
             Post postToUpdate = optionalPost.get();
-            //Con fe
             postToUpdate.addLike();
             postRepository.save(postToUpdate);
             return optionalPost.get();

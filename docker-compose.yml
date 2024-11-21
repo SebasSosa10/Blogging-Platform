@@ -2,7 +2,7 @@ services:
   #  --------------------------------------------
   app:
     build:
-      context: ./User-product
+      context: ./Blogging
       dockerfile: Dockerfile
     container_name: java-app-sosiJd
     depends_on:

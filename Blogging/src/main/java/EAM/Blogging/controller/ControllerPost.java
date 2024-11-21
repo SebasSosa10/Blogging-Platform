@@ -40,16 +40,20 @@ public class ControllerPost {
     }
 
     @PutMapping("/published/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long id) {
+    public ResponseEntity<Post> publishPost(@PathVariable Long id) {
         boolean updated = servicePost.changePostState(id);
         return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        boolean deleted = servicePost.deletePost(id);
+    public ResponseEntity<Void> deletePost(@PathVariable Long id, @Valid @RequestBody Long userId) {
+        boolean deleted = servicePost.deletePost(id, userId);
         return deleted ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
-
+    @PutMapping("/like/{id}")
+    public ResponseEntity<Void> likePost(@PathVariable Long id){
+        Post likedPost = servicePost.addPostLike(id);
+        return likedPost != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    }
 }
