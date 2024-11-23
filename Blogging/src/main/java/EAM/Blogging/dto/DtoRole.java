@@ -6,15 +6,13 @@ import jakarta.validation.constraints.*;
 public class DtoRole {
     @NotBlank(message = "Name cannot be empty")
     private String name;
-    private User user; // Reference to the User object
 
     public DtoRole() {
         super();
     }
 
-    public DtoRole(String name, User user) {
+    public DtoRole(String name) {
         this.name = name;
-        this.user = user;
     }
 
     public String getName() {
@@ -25,13 +23,6 @@ public class DtoRole {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
 
 
