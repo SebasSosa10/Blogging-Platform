@@ -4,7 +4,7 @@ services:
     build:
       context: ./Blogging
       dockerfile: Dockerfile
-    container_name: java-app-sosiJd
+    container_name: java-app-sosiJdJilmir
     depends_on:
       mysql:
         condition: service_healthy
@@ -17,7 +17,7 @@ services:
     build:
       context: ./MySQL
       dockerfile: Dockerfile
-    container_name: mysql-db-sosiJd
+    container_name: mysql-db-sosiJdJilmir
     volumes:
       - ./MySQL/mysql_data:/var/lib/mysql
     ports:
@@ -32,7 +32,7 @@ services:
   #  --------------------------------------------
   adminer:
     image: adminer
-    container_name: adminer-sosiJd
+    container_name: adminer-sosiJdJilmir
     depends_on:
       - mysql
     ports:
