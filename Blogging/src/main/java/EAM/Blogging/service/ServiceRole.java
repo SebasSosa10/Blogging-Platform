@@ -25,7 +25,6 @@ public class ServiceRole {
     public Role createRole(DtoRole dtoRole) {
         Role role = new Role();
         role.setName(dtoRole.getName());
-        role.setUser(dtoRole.getUser());
         return roleRepository.save(role);
     }
 
@@ -34,7 +33,6 @@ public class ServiceRole {
         if (optionalRole.isPresent()) {
             Role roleToUpdate = optionalRole.get();
             roleToUpdate.setName(dtoRole.getName());
-            roleToUpdate.setUser(dtoRole.getUser());
             roleRepository.save(roleToUpdate);
             return true;
         } else {
