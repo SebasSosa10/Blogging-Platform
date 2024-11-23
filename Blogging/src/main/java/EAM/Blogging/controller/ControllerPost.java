@@ -56,4 +56,9 @@ public class ControllerPost {
         Post likedPost = servicePost.addPostLike(id);
         return likedPost != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/search/{searchText}")
+    public List<Post> searchPosts(@PathVariable String searchText) {
+        return servicePost.searchPosts(searchText);
+    }
 }

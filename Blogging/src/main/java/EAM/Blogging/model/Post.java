@@ -36,20 +36,25 @@ public class Post {
     private List<PostTag> postTags;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostCategory> postCategories;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<CommentS> comments;
 
     public Post() {
         super();
     }
 
-    public Post(String title, String content, int likes, Date publisheddate, User user, boolean isPublished, List<PostTag> postTags, List<CommentS> comments) {
+    public Post(Long idPost, String title, String content, int likes, Date publisheddate, boolean isPublished, User user, List<PostTag> postTags, List<PostCategory> postCategories, List<CommentS> comments) {
+        this.idPost = idPost;
         this.title = title;
         this.content = content;
         this.likes = likes;
         this.publisheddate = publisheddate;
-        this.user = user;
         this.isPublished = isPublished;
+        this.user = user;
         this.postTags = postTags;
+        this.postCategories = postCategories;
         this.comments = comments;
     }
 
@@ -127,5 +132,13 @@ public class Post {
 
     public void setComments(List<CommentS> comments) {
         this.comments = comments;
+    }
+
+    public List<PostCategory> getPostCategories() {
+        return postCategories;
+    }
+
+    public void setPostCategories(List<PostCategory> postCategories) {
+        this.postCategories = postCategories;
     }
 }

@@ -2,21 +2,32 @@ package EAM.Blogging.service;
 
 import EAM.Blogging.dto.DtoPost;
 import EAM.Blogging.model.Post;
+import EAM.Blogging.model.PostCategory;
+import EAM.Blogging.model.PostTag;
 import EAM.Blogging.model.User;
 import EAM.Blogging.repository.RepositoryPost;
+import EAM.Blogging.repository.RepositoryPostCategory;
+import EAM.Blogging.repository.RepositoryPostTag;
 import EAM.Blogging.repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ServicePost {
     @Autowired
     private RepositoryPost postRepository;
+
     @Autowired
     private RepositoryUser userRepository;
+
+    @Autowired
+    private RepositoryPostCategory postCategoryRepository;
+
+    @Autowired
+    private RepositoryPostTag postTagRepository;
 
     public List<Post> findAllPosts() {
         return postRepository.findAll();
@@ -25,7 +36,6 @@ public class ServicePost {
     public Post findPostById(Long id) {
         return postRepository.findById(id).orElse(null);
     }
-
 
     public Post createPost(DtoPost dtoPost) {
         Post post = new Post();
@@ -40,7 +50,6 @@ public class ServicePost {
         }
         return null;
     }
-
 
     public boolean updatePost(Long id, DtoPost dtoPost) {
         Optional<Post> optionalPost = postRepository.findById(id);
@@ -95,5 +104,25 @@ public class ServicePost {
         } else {
             return null;
         }
+    }
+
+    public List<Post> searchPosts(String searchText) {
+        Set<Post> resultSet = new HashSet<>();
+
+        //Find by category
+        List<PostCategory> postCategories = postCategoryRepository.findByCategory_Name(searchText);
+        resultSet.addAll(postCategories.stream().map(PostCategory::getPost).collect(Collectors.toList()));
+
+        //find by username
+        resultSet.addAll(postRepository.findByUser_UserName(searchText));
+
+        //find by tag name
+        List<PostTag> postTags = postTagRepository.findByTag_Name(searchText);
+        resultSet.addAll(postTags.stream().map(PostTag::getPost).collect(Collectors.toList()));
+
+        //find by tittle
+        resultSet.addAll(postRepository.findByTitle(searchText));
+
+        return new ArrayList<>(resultSet);
     }
 }
